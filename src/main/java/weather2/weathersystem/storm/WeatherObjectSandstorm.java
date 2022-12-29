@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import biomesoplenty.api.biome.BOPBiomes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.init.Biomes;
@@ -134,7 +135,10 @@ public class WeatherObjectSandstorm extends WeatherObject {
 	 * @return
 	 */
 	public static boolean isDesert(Biome biome, boolean forSpawn) {
-		return biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || (!forSpawn && biome == Biomes.RIVER) || biome.biomeName.toLowerCase().contains("desert");
+		if (biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == BOPBiomes.xeric_shrubland.orNull() || (!forSpawn && biome == Biomes.RIVER)) return true;
+
+		String biomeName = biome.biomeName.toLowerCase();
+		return biomeName.contains("desert") && !biomeName.contains("lush") && !biomeName.contains("cold");
 	}
 	
 	/**

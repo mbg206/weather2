@@ -45,6 +45,7 @@ repositories {
 
 dependencies {
     compile files("../forge-1.12.1-CoroUtil/build/classes/main/")
+    compile files("../BiomesOPlenty-BOP-1.12.x-7.0.x/build/classes/main/")
 }
 
 processResources {

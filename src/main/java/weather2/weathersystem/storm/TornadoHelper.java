@@ -6,6 +6,9 @@ import CoroUtil.block.TileEntityRepairingBlock;
 import CoroUtil.forge.CULog;
 import CoroUtil.forge.CommonProxy;
 import CoroUtil.util.UtilMining;
+import biomesoplenty.api.block.BOPBlocks;
+import biomesoplenty.common.block.BlockBOPDirt;
+import biomesoplenty.common.block.BlockBOPGrass;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -338,6 +341,18 @@ public class TornadoHelper {
 	                        		}
 	                        		
 	                        	}
+								else if (blockID == BOPBlocks.grass) {
+									BlockBOPGrass.BOPGrassType variant = (BlockBOPGrass.BOPGrassType) state.getValue(BlockBOPGrass.VARIANT);
+
+									BlockBOPDirt.BOPDirtType newType = null;
+									if (variant == BlockBOPGrass.BOPGrassType.LOAMY) newType = BlockBOPDirt.BOPDirtType.LOAMY;
+									else if (variant == BlockBOPGrass.BOPGrassType.SANDY) newType = BlockBOPDirt.BOPDirtType.SANDY;
+									else if (variant == BlockBOPGrass.BOPGrassType.SILTY) newType = BlockBOPDirt.BOPDirtType.SILTY;
+
+									if (newType != null && !listBlockUpdateQueue.containsKey(pos)) {
+										listBlockUpdateQueue.put(pos, new BlockUpdateSnapshot(parWorld.provider.getDimension(), BOPBlocks.dirt.getDefaultState().withProperty(BlockBOPDirt.VARIANT, newType), state, pos, false));
+									}
+								}
 	                        }
 	                    	
 	                    }

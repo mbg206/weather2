@@ -1,11 +1,9 @@
 package weather2.util;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 import CoroUtil.util.CoroUtilCompatibility;
+import biomesoplenty.api.block.BOPBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockTallGrass;
@@ -111,7 +109,17 @@ public class WeatherUtil {
                 }
                 
                 if (ConfigTornado.Storm_Tornado_RefinedGrabRules) {
-                	if (block == Blocks.DIRT || block == Blocks.GRASS || block == Blocks.SAND || block instanceof BlockLog/* || block.blockMaterial == Material.wood*/) {
+                    String registryName = block.getRegistryName().toString();
+                	if (
+                            block == Blocks.DIRT ||
+                            block == Blocks.GRASS ||
+                            block == Blocks.SAND ||
+                            /*block == Blocks.GRAVEL ||*/
+                            block instanceof BlockLog ||
+                            block == BOPBlocks.white_sand ||
+                            block == BOPBlocks.grass ||
+                            block == BOPBlocks.dirt
+                    ) {
                 		result = false;
                 	}
                 	if (!CoroUtilCompatibility.canTornadoGrabBlockRefinedRules(state)) {
