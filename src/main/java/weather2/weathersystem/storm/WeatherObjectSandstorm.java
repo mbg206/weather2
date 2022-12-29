@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import weather2.CommonProxy;
@@ -135,7 +136,7 @@ public class WeatherObjectSandstorm extends WeatherObject {
 	 * @return
 	 */
 	public static boolean isDesert(Biome biome, boolean forSpawn) {
-		if (biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == BOPBiomes.xeric_shrubland.orNull() || (!forSpawn && biome == Biomes.RIVER)) return true;
+		if (biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || (Loader.isModLoaded("biomesoplenty") && biome == BOPBiomes.xeric_shrubland.get()) || (!forSpawn && biome == Biomes.RIVER)) return true;
 
 		String biomeName = biome.biomeName.toLowerCase();
 		return biomeName.contains("desert") && !biomeName.contains("lush") && !biomeName.contains("cold");

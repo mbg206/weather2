@@ -16,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.Loader;
 import weather2.CommonProxy;
 import weather2.config.ConfigTornado;
 
@@ -75,7 +76,7 @@ public class WeatherUtil {
                 if (ConfigTornado.Storm_Tornado_GrabCond_StrengthGrabbing)
                 {
                     float strMin = 0.0F;
-                    float strMax = 0.74F;
+                    float strMax = 0.99F; //0.74F;
 
                     if (block == null)
                     {
@@ -83,14 +84,15 @@ public class WeatherUtil {
                     	return result; //force return false to prevent unchecked future code outside scope
                     } else {
 
-    	                float strVsBlock = block.getBlockHardness(block.getDefaultState(), parWorld, new BlockPos(0, 0, 0)) - (((itemStr.getStrVsBlock(block.getDefaultState()) - 1) / 4F));
-    	
+                        IBlockState blockState = (block instanceof BlockLog) ? Blocks.SANDSTONE.getDefaultState() : block.getDefaultState();
+    	                float strVsBlock = block.getBlockHardness(blockState, parWorld, new BlockPos(0, 0, 0)) - (((itemStr.getStrVsBlock(blockState) - 1) / 4F));
+
     	                //System.out.println(strVsBlock);
     	                if (/*block.getHardness() <= 10000.6*/ (strVsBlock <= strMax && strVsBlock >= strMin) ||
-                                (block.getMaterial(block.getDefaultState()) == Material.WOOD) ||
-                                block.getMaterial(block.getDefaultState()) == Material.CLOTH ||
-                                block.getMaterial(block.getDefaultState()) == Material.PLANTS ||
-                                block.getMaterial(block.getDefaultState()) == Material.VINE ||
+                                block.getMaterial(blockState) == Material.WOOD ||
+                                block.getMaterial(blockState) == Material.CLOTH ||
+                                block.getMaterial(blockState) == Material.PLANTS ||
+                                block.getMaterial(blockState) == Material.VINE ||
                                 block instanceof BlockTallGrass)
     	                {
     	                    /*if (block.blockMaterial == Material.water) {
@@ -100,6 +102,9 @@ public class WeatherUtil {
     	                    {
     	                    	result = false;
     	                    }
+                            /*else if (Math.random() < strVsBlock - 0.3) {
+                                result = false;
+                            }*/
     	                } else {
     	                	result = false;
     	                }
@@ -115,10 +120,12 @@ public class WeatherUtil {
                             block == Blocks.GRASS ||
                             block == Blocks.SAND ||
                             /*block == Blocks.GRAVEL ||*/
-                            block instanceof BlockLog ||
-                            block == BOPBlocks.white_sand ||
-                            block == BOPBlocks.grass ||
-                            block == BOPBlocks.dirt
+                            (Loader.isModLoaded("biomesoplenty") && (
+                                block == BOPBlocks.white_sand ||
+                                block == BOPBlocks.grass ||
+                                block == BOPBlocks.dirt
+                            )) ||
+                            (Loader.isModLoaded("dynamictrees") ? block.getRegistryName().toString().matches("^dynamictrees[a-z]*:[a-z]+branchx?$") : block instanceof BlockLog)
                     ) {
                 		result = false;
                 	}
@@ -143,7 +150,7 @@ public class WeatherUtil {
     
     public static boolean safetyCheck(Block id)
     {
-        if (id != Blocks.BEDROCK && id != Blocks.LOG && id != Blocks.CHEST && id != Blocks.JUKEBOX/* && id != Block.waterMoving.blockID && id != Block.waterStill.blockID */)
+        if (id != Blocks.BEDROCK && (Loader.isModLoaded("dynamictrees") || id != Blocks.LOG) && id != Blocks.CHEST/* && id != Blocks.JUKEBOX && id != Block.waterMoving.blockID && id != Block.waterStill.blockID */)
         {
             return true;
         }

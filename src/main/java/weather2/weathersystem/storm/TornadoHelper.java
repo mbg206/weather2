@@ -34,6 +34,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import weather2.ClientConfigData;
@@ -341,7 +342,7 @@ public class TornadoHelper {
 	                        		}
 	                        		
 	                        	}
-								else if (blockID == BOPBlocks.grass) {
+								else if (Loader.isModLoaded("biomesoplenty") && blockID == BOPBlocks.grass) {
 									BlockBOPGrass.BOPGrassType variant = (BlockBOPGrass.BOPGrassType) state.getValue(BlockBOPGrass.VARIANT);
 
 									BlockBOPDirt.BOPDirtType newType = null;
