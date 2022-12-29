@@ -114,7 +114,6 @@ public class WeatherUtil {
                 }
                 
                 if (ConfigTornado.Storm_Tornado_RefinedGrabRules) {
-                    String registryName = block.getRegistryName().toString();
                 	if (
                             block == Blocks.DIRT ||
                             block == Blocks.GRASS ||
