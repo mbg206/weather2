@@ -82,9 +82,18 @@ public class WeatherUtil {
                     {
                     	result = false;
                     	return result; //force return false to prevent unchecked future code outside scope
-                    } else {
+                    }
+                    else if (block instanceof BlockLog)
+                    {
+					    Random rand = new Random();
+                        if (rand.nextInt(15) > 0)
+                        {
+                            result = false;
+                        }
+                    }
+                    else {
 
-                        IBlockState blockState = (block instanceof BlockLog) ? Blocks.SANDSTONE.getDefaultState() : block.getDefaultState();
+                        IBlockState blockState = block.getDefaultState();
     	                float strVsBlock = block.getBlockHardness(blockState, parWorld, new BlockPos(0, 0, 0)) - (((itemStr.getStrVsBlock(blockState) - 1) / 4F));
 
     	                //System.out.println(strVsBlock);
@@ -118,7 +127,7 @@ public class WeatherUtil {
                             block == Blocks.DIRT ||
                             block == Blocks.GRASS ||
                             block == Blocks.SAND ||
-                            /*block == Blocks.GRAVEL ||*/
+                            block == Blocks.GRAVEL ||
                             (Loader.isModLoaded("biomesoplenty") && (
                                 block == BOPBlocks.white_sand ||
                                 block == BOPBlocks.grass ||
